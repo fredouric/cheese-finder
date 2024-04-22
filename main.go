@@ -50,6 +50,7 @@ var app = &cli.App{
 		server := grpc.NewServer()
 
 		cheesev1.RegisterCheeseAPIServer(server, cheese.New())
+
 		return server.Serve(listener)
 	},
 }
