@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package cheese.v1;
+
+option go_package = "./pb/cheese";
+
+service CheeseAPI {
+    rpc GetOneCheese(GetOneCheeseRequest) returns (GetOneCheeseResponse);
+}
+
+message GetOneCheeseRequest {
+    string id = 1;
+}
+
+message GetOneCheeseResponse {
+    Cheese cheese = 1;
+}
+
+message Cheese {
+    string id=1;
+    string fromage=2;
+    string departement=3;
+}
