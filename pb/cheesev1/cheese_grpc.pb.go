@@ -4,7 +4,7 @@
 // - protoc             v5.26.1
 // source: cheese/cheese.proto
 
-package cheese
+package cheesev1
 
 import (
 	context "context"

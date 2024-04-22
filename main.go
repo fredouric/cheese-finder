@@ -5,7 +5,9 @@ import (
 	"net"
 	"os"
 
+	"github.com/fredouric/cheese-finder-grpc/api/cheese"
 	"github.com/fredouric/cheese-finder-grpc/dataset"
+	"github.com/fredouric/cheese-finder-grpc/pb/cheesev1"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
@@ -47,6 +49,7 @@ var app = &cli.App{
 
 		server := grpc.NewServer()
 
+		cheesev1.RegisterCheeseAPIServer(server, cheese.New())
 		return server.Serve(listener)
 	},
 }

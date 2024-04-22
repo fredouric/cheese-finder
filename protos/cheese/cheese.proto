@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package cheese.v1;
 
-option go_package = "./pb/cheese";
+option go_package = "./pb/cheesev1";
 
 service CheeseAPI {
     rpc GetOneCheese(GetOneCheeseRequest) returns (GetOneCheeseResponse);
