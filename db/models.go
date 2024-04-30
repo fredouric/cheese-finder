@@ -4,17 +4,13 @@
 
 package db
 
-import (
-	"database/sql"
-)
-
 type Cheese struct {
 	ID            int64
-	Departement   sql.NullString
-	Fromage       sql.NullString
-	Pagefrancaise sql.NullString
-	Englishpage   sql.NullString
-	Lait          sql.NullString
-	Geoshape      sql.NullString
-	Geopoint2d    sql.NullString
+	Departement   string
+	Fromage       string
+	Pagefrancaise string
+	Englishpage   string
+	Lait          string
+	Geoshape      string
+	Geopoint2d    string
 }

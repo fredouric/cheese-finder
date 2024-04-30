@@ -1,11 +1,11 @@
 CREATE TABLE IF NOT EXISTS Cheese (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    Departement TEXT,
-    Fromage TEXT,
-    PageFrancaise TEXT,
-    EnglishPage TEXT,
-    Lait TEXT,
-    GeoShape TEXT,
-    GeoPoint2D TEXT
+    Departement VARCHAR(255) NOT NULL,
+    Fromage VARCHAR(255) NOT NULL,
+    PageFrancaise VARCHAR(255) NOT NULL,
+    EnglishPage VARCHAR(255) NOT NULL,
+    Lait VARCHAR(255) NOT NULL,
+    GeoShape  VARCHAR(255) NOT NULL,
+    GeoPoint2D VARCHAR(255) NOT NULL
 );
 

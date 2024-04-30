@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 )
 
 const addCheese = `-- name: AddCheese :exec
@@ -15,13 +14,13 @@ INSERT INTO Cheese (Departement, Fromage, PageFrancaise, EnglishPage, Lait, GeoS
 `
 
 type AddCheeseParams struct {
-	Departement   sql.NullString
-	Fromage       sql.NullString
-	Pagefrancaise sql.NullString
-	Englishpage   sql.NullString
-	Lait          sql.NullString
-	Geoshape      sql.NullString
-	Geopoint2d    sql.NullString
+	Departement   string
+	Fromage       string
+	Pagefrancaise string
+	Englishpage   string
+	Lait          string
+	Geoshape      string
+	Geopoint2d    string
 }
 
 func (q *Queries) AddCheese(ctx context.Context, arg AddCheeseParams) error {
