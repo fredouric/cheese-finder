@@ -83,7 +83,7 @@ jobs:
             VERSION=${{ steps.get_version.outputs.VERSION }}
           tags: |
             ghcr.io/fredouric/cheese-grpc:latest
-            ghcr.io/fredouric/cheese-grpc:${{VERSION}}
+            ghcr.io/fredouric/cheese-grpc:${{ steps.get_version.outputs.VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
