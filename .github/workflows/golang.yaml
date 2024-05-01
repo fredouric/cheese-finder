@@ -1,0 +1,89 @@
+name: Golang CI
+
+on:
+  push:
+    tags:
+      - '*'
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: actions/setup-go@v5
+      with:
+        go-version-file: 'go.mod'
+        cache: true
+        cache-dependency-path: go.sum
+
+    - name: golangci-lint
+      uses: golangci/golangci-lint-action@v4
+      with:
+        version: latest
+        args: --timeout 5m
+
+
+  build-export:
+    name: Build and export
+    runs-on: ubuntu-latest
+
+    needs: [lint]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        if: ${{ ! startsWith(github.ref, 'refs/tags') }}
+        uses: docker/build-push-action@v5
+        with:
+          platforms: linux/amd64, linux/arm64
+
+          push: false
+          tags: |
+            ghcr.io/fredouric/cheese-grpc:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Login to GitHub Container Registry
+        if: startsWith(github.ref, 'refs/tags')
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get the oci compatible version
+        if: startsWith(github.ref, 'refs/tags')
+        id: get_version
+        run: |
+          OCI_VERSION=$(echo ${GITHUB_REF#refs/*/} | sed 's/+/-/g' | sed -E 's/v(.*)/\1/g' )
+          echo "VERSION=${OCI_VERSION}" >> $GITHUB_OUTPUT
+
+      - name: Build and push
+        if: startsWith(github.ref, 'refs/tags')
+        uses: docker/build-push-action@v5
+        with:
+          platforms: linux/amd64, linux/arm64
+
+          push: true
+          build-args: |
+            VERSION=${{ steps.get_version.outputs.VERSION }}
+          tags: |
+            ghcr.io/fredouric/cheese-grpc:latest
+            ghcr.io/fredouric/cheese-grpc:${{VERSION}}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
