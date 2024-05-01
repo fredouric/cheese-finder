@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-const url = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/fromagescsv-fromagescsv/records?limit=20"
+const url = "https://public.opendatasoft.com/api/explore/v2.1/catalog/datasets/fromagescsv-fromagescsv/records?limit=100"
 
 func Fetch() ([]Cheese, error) {
 	resp, err := http.Get(url)

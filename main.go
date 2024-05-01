@@ -3,6 +3,7 @@ package main
 import (
 	"database/sql"
 	_ "embed"
+	"fmt"
 	"net"
 	"os"
 
@@ -10,18 +11,19 @@ import (
 	"github.com/fredouric/cheese-finder-grpc/dataset"
 	"github.com/fredouric/cheese-finder-grpc/db"
 	"github.com/fredouric/cheese-finder-grpc/pb/cheesev1"
-	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
 	"google.golang.org/grpc"
+	_ "modernc.org/sqlite"
 )
 
 var (
 	port   string
 	dbPath string
+
 	//go:embed db/schema.sql
-	schema string
+	dbSchema string
 )
 
 var app = &cli.App{
@@ -43,12 +45,12 @@ var app = &cli.App{
 	Action: func(ctx *cli.Context) error {
 		log.Level(zerolog.DebugLevel)
 
-		sqlite, err := sql.Open("sqlite3", dbPath)
+		sqlite, err := sql.Open("sqlite", dbPath)
 		if err != nil {
 			log.Fatal().Err(err).Msg("failed to open db")
 		}
 
-		if _, err := sqlite.ExecContext(ctx.Context, schema); err != nil {
+		if _, err := sqlite.ExecContext(ctx.Context, dbSchema); err != nil {
 			log.Fatal().Err(err).Msg("failed to create tables")
 		}
 
@@ -61,17 +63,26 @@ var app = &cli.App{
 			}
 			log.Info().Int("totalCheeses", len(cheeses)).Msg("fetched dataset")
 
+			// TODO: populate db with all cheeeses
+			// TODO: mappers for structs
 			if err := queries.AddCheese(ctx.Context, db.AddCheeseParams{
 				Departement:   "Some Departement",
 				Fromage:       "Some Fromage",
 				Pagefrancaise: "Some Page Francaise",
 				Englishpage:   "Some English Page",
 				Lait:          "Lait, Brebis",
-				Geoshape:      "{}",          // Placeholder for GeoShape data
-				Geopoint2d:    "1.234,5.678", // Placeholder for GeoPoint2D data
+				Geoshape:      "{}",
+				Geopoint2d:    "1.234,5.678",
 			}); err != nil {
 				log.Fatal().Err(err).Msg("failed to populate db")
 			}
+
+			cheese, err := queries.GetCheese(ctx.Context, 1)
+			if err != nil {
+				log.Fatal().Err(err).Msg("prout")
+			}
+			fmt.Println(cheese)
+
 		}()
 
 		listener, err := net.Listen("tcp", port)
