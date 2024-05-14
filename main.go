@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"embed"
 	_ "embed"
 	"fmt"
 	"net"
@@ -11,6 +12,7 @@ import (
 	"github.com/fredouric/cheese-finder-grpc/dataset"
 	"github.com/fredouric/cheese-finder-grpc/db"
 	"github.com/fredouric/cheese-finder-grpc/pb/cheesev1"
+	"github.com/pressly/goose/v3"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
@@ -22,8 +24,8 @@ var (
 	port   string
 	dbPath string
 
-	//go:embed db/schema.sql
-	dbSchema string
+	//go:embed db/000001_migration.sql
+	embedMigrations embed.FS
 )
 
 var app = &cli.App{
@@ -44,15 +46,21 @@ var app = &cli.App{
 	},
 	Action: func(ctx *cli.Context) error {
 		log.Level(zerolog.DebugLevel)
+		goose.SetLogger(goose.NopLogger())
 
 		sqlite, err := sql.Open("sqlite", dbPath)
 		if err != nil {
 			log.Fatal().Err(err).Msg("failed to open db")
 		}
 
-		if _, err := sqlite.ExecContext(ctx.Context, dbSchema); err != nil {
-			log.Fatal().Err(err).Msg("failed to create tables")
+		goose.SetBaseFS(embedMigrations)
+		if err := goose.SetDialect("sqlite"); err != nil {
+			log.Fatal().Err(err).Msg("failed to set migration dialect")
 		}
+		if err := goose.Up(sqlite, "db"); err != nil {
+			log.Fatal().Err(err).Msg("failed to migrate db")
+		}
+		log.Info().Msg("migrated db")
 
 		queries := db.New(sqlite)
 

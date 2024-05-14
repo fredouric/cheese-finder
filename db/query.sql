@@ -1,6 +1,6 @@
 -- name: AddCheese :exec
-INSERT INTO Cheese (Departement, Fromage, PageFrancaise, EnglishPage, Lait, GeoShape, GeoPoint2D) VALUES (?, ?, ?, ?, ?, ?, ?);
+INSERT INTO cheese (departement, fromage, pagefrancaise, englishpage, lait, geoshape, geopoint2d) VALUES (?, ?, ?, ?, ?, ?, ?);
 
 -- name: GetCheese :one
-SELECT * FROM Cheese 
+SELECT * FROM cheese 
 WHERE id=? LIMIT 1;
