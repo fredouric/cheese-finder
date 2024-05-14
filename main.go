@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"sync"
 
 	"github.com/fredouric/cheese-finder-grpc/api/cheese"
 	"github.com/fredouric/cheese-finder-grpc/dataset"
@@ -43,7 +44,11 @@ var app = &cli.App{
 
 		queries := db.Migrate(dbPath)
 
+		var wg sync.WaitGroup
+		wg.Add(1)
+
 		go func() {
+			defer wg.Done()
 			cheeses, err := dataset.Fetch()
 			if err != nil {
 				log.Fatal().Err(err).Msg("failed to fetch cheeses")
@@ -71,6 +76,8 @@ var app = &cli.App{
 			fmt.Println(cheese)
 
 		}()
+
+		wg.Wait()
 
 		listener, err := net.Listen("tcp", port)
 		if err != nil {
