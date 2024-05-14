@@ -2,7 +2,6 @@ package main
 
 import (
 	_ "embed"
-	"fmt"
 	"net"
 	"os"
 	"sync"
@@ -51,30 +50,13 @@ var app = &cli.App{
 			defer wg.Done()
 			cheeses, err := dataset.Fetch()
 			if err != nil {
-				log.Fatal().Err(err).Msg("failed to fetch cheeses")
+				log.Fatal().Err(err).Msg("failed to fetch dataset")
 			}
-			log.Info().Int("totalCheeses", len(cheeses)).Msg("fetched dataset")
+
+			log.Info().Msg("entire dataset fetched")
 
 			// TODO: populate db with all cheeeses
 			// TODO: mappers for structs
-			if err := queries.AddCheese(ctx.Context, db.AddCheeseParams{
-				Departement:   "Some Departement",
-				Fromage:       "Some Fromage",
-				Pagefrancaise: "Some Page Francaise",
-				Englishpage:   "Some English Page",
-				Lait:          "Lait, Brebis",
-				Geoshape:      "{}",
-				Geopoint2d:    "1.234,5.678",
-			}); err != nil {
-				log.Fatal().Err(err).Msg("failed to populate db")
-			}
-
-			cheese, err := queries.GetCheese(ctx.Context, 1)
-			if err != nil {
-				log.Fatal().Err(err).Msg("prout")
-			}
-			fmt.Println(cheese)
-
 		}()
 
 		wg.Wait()

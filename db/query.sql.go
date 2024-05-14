@@ -10,7 +10,7 @@ import (
 )
 
 const addCheese = `-- name: AddCheese :exec
-INSERT INTO Cheese (Departement, Fromage, PageFrancaise, EnglishPage, Lait, GeoShape, GeoPoint2D) VALUES (?, ?, ?, ?, ?, ?, ?)
+INSERT INTO cheese (departement, fromage, pagefrancaise, englishpage, lait, geoshape, geopoint2d) VALUES (?, ?, ?, ?, ?, ?, ?)
 `
 
 type AddCheeseParams struct {
@@ -37,7 +37,7 @@ func (q *Queries) AddCheese(ctx context.Context, arg AddCheeseParams) error {
 }
 
 const getCheese = `-- name: GetCheese :one
-SELECT id, departement, fromage, pagefrancaise, englishpage, lait, geoshape, geopoint2d FROM Cheese 
+SELECT id, departement, fromage, pagefrancaise, englishpage, lait, geoshape, geopoint2d FROM cheese 
 WHERE id=? LIMIT 1
 `
 
