@@ -1,6 +1,7 @@
 package main
 
 import (
+	"database/sql"
 	_ "embed"
 	"net"
 	"os"
@@ -41,24 +42,35 @@ var app = &cli.App{
 	Action: func(ctx *cli.Context) error {
 		log.Level(zerolog.DebugLevel)
 
-		queries := db.Migrate(dbPath)
+		sqlite, err := sql.Open("sqlite", dbPath)
+		if err != nil {
+			log.Fatal().Err(err).Msg("failed to open db")
+		}
+		queries := db.Migrate(sqlite, dbPath)
 
 		var wg sync.WaitGroup
 		wg.Add(1)
 
 		go func() {
 			defer wg.Done()
+
 			cheeses, err := dataset.Fetch()
 			if err != nil {
 				log.Fatal().Err(err).Msg("failed to fetch dataset")
 			}
-
 			log.Info().Msg("entire dataset fetched")
 
-			// TODO: populate db with all cheeeses
-			// TODO: mappers for structs
-		}()
+			if err := queries.DeleteAllCheeses(ctx.Context); err != nil {
+				log.Fatal().Err(err).Msg("failed to clean db")
+			}
+			log.Info().Msg("cleaned db")
 
+			if err := db.Populate(ctx.Context, sqlite, queries, cheeses); err != nil {
+				log.Fatal().Err(err).Msg("failed to populate db")
+			}
+			log.Info().Msg("populated db")
+
+		}()
 		wg.Wait()
 
 		listener, err := net.Listen("tcp", port)

@@ -4,3 +4,6 @@ INSERT INTO cheese (departement, fromage, pagefrancaise, englishpage, lait, geos
 -- name: GetCheese :one
 SELECT * FROM cheese 
 WHERE id=? LIMIT 1;
+
+-- name: DeleteAllCheeses :exec
+DELETE FROM cheese;

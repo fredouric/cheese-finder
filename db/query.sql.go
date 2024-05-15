@@ -36,6 +36,15 @@ func (q *Queries) AddCheese(ctx context.Context, arg AddCheeseParams) error {
 	return err
 }
 
+const deleteAllCheeses = `-- name: DeleteAllCheeses :exec
+DELETE FROM cheese
+`
+
+func (q *Queries) DeleteAllCheeses(ctx context.Context) error {
+	_, err := q.db.ExecContext(ctx, deleteAllCheeses)
+	return err
+}
+
 const getCheese = `-- name: GetCheese :one
 SELECT id, departement, fromage, pagefrancaise, englishpage, lait, geoshape, geopoint2d FROM cheese 
 WHERE id=? LIMIT 1
