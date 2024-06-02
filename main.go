@@ -2,7 +2,6 @@ package main
 
 import (
 	"database/sql"
-	_ "embed"
 	"net"
 	"os"
 	"sync"
@@ -32,11 +31,13 @@ var app = &cli.App{
 			Name:        "port",
 			Value:       ":3000",
 			Destination: &port,
+			EnvVars:     []string{"PORT"},
 		},
 		&cli.StringFlag{
 			Name:        "DB Path",
 			Value:       "./cheese.sqlite3",
 			Destination: &dbPath,
+			EnvVars:     []string{"DB_PATH"},
 		},
 	},
 	Action: func(ctx *cli.Context) error {
@@ -80,7 +81,7 @@ var app = &cli.App{
 
 		server := grpc.NewServer()
 
-		cheesev1.RegisterCheeseAPIServer(server, cheese.New())
+		cheesev1.RegisterCheeseAPIServer(server, cheese.New(queries))
 
 		log.Info().Str("port", port).Msg("api server started")
 
