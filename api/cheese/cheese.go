@@ -28,3 +28,21 @@ func (s *cheeseAPIServer) GetOneCheese(ctx context.Context, req *cheesev1.GetOne
 		Cheese: DBCheeseToProtobuf(&cheese),
 	}, nil
 }
+
+func (s *cheeseAPIServer) GetAllCheeses(ctx context.Context, req *cheesev1.GetAllCheesesRequest) (*cheesev1.GetAllCheesesResponse, error) {
+	cheeses, err := s.queries.GetAllCheeses(ctx)
+	if err != nil {
+		log.Err(err).Msg("failed to get cheeses")
+		return nil, err
+	}
+
+	data := []*cheesev1.Cheese{}
+	for _, cheese := range cheeses {
+		protoCheese := DBCheeseToProtobuf(&cheese)
+		data = append(data, protoCheese)
+	}
+
+	return &cheesev1.GetAllCheesesResponse{
+		Cheeses: data,
+	}, nil
+}

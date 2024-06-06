@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CheeseAPIClient interface {
 	GetOneCheese(ctx context.Context, in *GetOneCheeseRequest, opts ...grpc.CallOption) (*GetOneCheeseResponse, error)
+	GetAllCheeses(ctx context.Context, in *GetAllCheesesRequest, opts ...grpc.CallOption) (*GetAllCheesesResponse, error)
 }
 
 type cheeseAPIClient struct {
@@ -42,11 +43,21 @@ func (c *cheeseAPIClient) GetOneCheese(ctx context.Context, in *GetOneCheeseRequ
 	return out, nil
 }
 
+func (c *cheeseAPIClient) GetAllCheeses(ctx context.Context, in *GetAllCheesesRequest, opts ...grpc.CallOption) (*GetAllCheesesResponse, error) {
+	out := new(GetAllCheesesResponse)
+	err := c.cc.Invoke(ctx, "/cheese.v1.CheeseAPI/GetAllCheeses", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CheeseAPIServer is the server API for CheeseAPI service.
 // All implementations must embed UnimplementedCheeseAPIServer
 // for forward compatibility
 type CheeseAPIServer interface {
 	GetOneCheese(context.Context, *GetOneCheeseRequest) (*GetOneCheeseResponse, error)
+	GetAllCheeses(context.Context, *GetAllCheesesRequest) (*GetAllCheesesResponse, error)
 	mustEmbedUnimplementedCheeseAPIServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedCheeseAPIServer struct {
 
 func (UnimplementedCheeseAPIServer) GetOneCheese(context.Context, *GetOneCheeseRequest) (*GetOneCheeseResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOneCheese not implemented")
+}
+func (UnimplementedCheeseAPIServer) GetAllCheeses(context.Context, *GetAllCheesesRequest) (*GetAllCheesesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllCheeses not implemented")
 }
 func (UnimplementedCheeseAPIServer) mustEmbedUnimplementedCheeseAPIServer() {}
 
@@ -88,6 +102,24 @@ func _CheeseAPI_GetOneCheese_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CheeseAPI_GetAllCheeses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAllCheesesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CheeseAPIServer).GetAllCheeses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/cheese.v1.CheeseAPI/GetAllCheeses",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CheeseAPIServer).GetAllCheeses(ctx, req.(*GetAllCheesesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CheeseAPI_ServiceDesc is the grpc.ServiceDesc for CheeseAPI service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var CheeseAPI_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetOneCheese",
 			Handler:    _CheeseAPI_GetOneCheese_Handler,
+		},
+		{
+			MethodName: "GetAllCheeses",
+			Handler:    _CheeseAPI_GetAllCheeses_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

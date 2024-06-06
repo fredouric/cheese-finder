@@ -45,6 +45,43 @@ func (q *Queries) DeleteAllCheeses(ctx context.Context) error {
 	return err
 }
 
+const getAllCheeses = `-- name: GetAllCheeses :many
+SELECT id, departement, fromage, pagefrancaise, englishpage, lait, geoshape, geopoint2d FROM cheese
+ORDER BY fromage
+`
+
+func (q *Queries) GetAllCheeses(ctx context.Context) ([]Cheese, error) {
+	rows, err := q.db.QueryContext(ctx, getAllCheeses)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Cheese
+	for rows.Next() {
+		var i Cheese
+		if err := rows.Scan(
+			&i.ID,
+			&i.Departement,
+			&i.Fromage,
+			&i.Pagefrancaise,
+			&i.Englishpage,
+			&i.Lait,
+			&i.Geoshape,
+			&i.Geopoint2d,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getCheese = `-- name: GetCheese :one
 SELECT id, departement, fromage, pagefrancaise, englishpage, lait, geoshape, geopoint2d FROM cheese 
 WHERE id=? LIMIT 1

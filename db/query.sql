@@ -5,5 +5,9 @@ INSERT INTO cheese (departement, fromage, pagefrancaise, englishpage, lait, geos
 SELECT * FROM cheese 
 WHERE id=? LIMIT 1;
 
+-- name: GetAllCheeses :many
+SELECT * FROM cheese
+ORDER BY fromage;
+
 -- name: DeleteAllCheeses :exec
 DELETE FROM cheese;
