@@ -14,6 +14,8 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/health"
+	healthpb "google.golang.org/grpc/health/grpc_health_v1"
 	_ "modernc.org/sqlite"
 )
 
@@ -81,6 +83,7 @@ var app = &cli.App{
 
 		server := grpc.NewServer()
 
+		healthpb.RegisterHealthServer(server, health.NewServer())
 		cheesev1.RegisterCheeseAPIServer(server, cheese.New(queries))
 
 		log.Info().Str("port", port).Msg("api server started")
