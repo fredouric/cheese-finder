@@ -64,7 +64,7 @@ jobs:
             ghcr.io/fredouric/cheese-finder-back:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          file: ./go/Dockefile
+          context: "{{defaultContext}}:go"
 
       - name: Login to GitHub Container Registry
         if: startsWith(github.ref, 'refs/tags')
@@ -94,5 +94,5 @@ jobs:
             ghcr.io/fredouric/cheese-finder-back:${{ steps.get_version.outputs.VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          file: ./go/Dockefile
+          context: "{{defaultContext}}:go"
 
