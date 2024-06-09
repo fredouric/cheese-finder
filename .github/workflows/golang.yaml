@@ -61,10 +61,10 @@ jobs:
           platforms: linux/amd64, linux/arm64
           push: false
           tags: |
-            ghcr.io/fredouric/cheese-grpc:latest
+            ghcr.io/fredouric/cheese-finder-back:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          working-directory: ${{env.working-directory}}
+          file: ./go/Dockefile
 
       - name: Login to GitHub Container Registry
         if: startsWith(github.ref, 'refs/tags')
@@ -94,5 +94,5 @@ jobs:
             ghcr.io/fredouric/cheese-finder-back:${{ steps.get_version.outputs.VERSION }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          working-directory: ${{env.working-directory}}
+          file: ./go/Dockefile
 
