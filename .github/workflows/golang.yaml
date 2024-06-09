@@ -3,7 +3,7 @@ name: Golang CI
 on:
   push:
     paths:
-      - ".github/worflows/golang.yaml"
+      - ".github/workflows/golang.yaml"
       - "go/**"
     tags:
       - '*'
