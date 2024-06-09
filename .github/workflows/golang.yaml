@@ -34,7 +34,7 @@ jobs:
       with:
         version: latest
         args: --timeout 5m
-        working-directory: ./go
+        working-directory: ${{env.working-directory}}
 
 
   build-export:
@@ -59,7 +59,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           platforms: linux/amd64, linux/arm64
-
           push: false
           tags: |
             ghcr.io/fredouric/cheese-grpc:latest
@@ -87,7 +86,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           platforms: linux/amd64, linux/arm64
-
           push: true
           build-args: |
             VERSION=${{ steps.get_version.outputs.VERSION }}
