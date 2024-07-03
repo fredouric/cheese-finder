@@ -7,7 +7,7 @@ require (
 	github.com/rs/zerolog v1.33.0
 	github.com/urfave/cli/v2 v2.27.2
 	golang.org/x/net v0.26.0
-	google.golang.org/grpc v1.64.0
+	google.golang.org/grpc v1.65.0
 	google.golang.org/protobuf v1.34.2
 	modernc.org/sqlite v1.30.1
 )
