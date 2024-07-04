@@ -1,0 +1,19 @@
+version: v2
+managed:
+  enabled: true
+  override:
+    - file_option: go_package_prefix
+      value: "github.com/fredouric/cheese-finder-grpc/gen/cheese/v1"
+plugins:
+  - local: './web/node_modules/@protobuf-ts/plugin/bin/protoc-gen-ts'
+    out: ./web/gen/
+    opt: generate_dependencies,long_type_string
+  - local: protoc-gen-go
+    out: ./go/gen/
+    opt: paths=source_relative
+  - local: protoc-gen-go-grpc
+    out: ./go/gen/
+    opt: paths=source_relative
+inputs:
+  - directory: protos
+

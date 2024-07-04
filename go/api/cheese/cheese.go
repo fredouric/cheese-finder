@@ -2,7 +2,7 @@ package cheese
 
 import (
 	"github.com/fredouric/cheese-finder-grpc/db"
-	"github.com/fredouric/cheese-finder-grpc/gen/cheesev1"
+	"github.com/fredouric/cheese-finder-grpc/gen/cheese/v1"
 	"github.com/rs/zerolog/log"
 	"golang.org/x/net/context"
 )

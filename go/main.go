@@ -9,7 +9,7 @@ import (
 	"github.com/fredouric/cheese-finder-grpc/api/cheese"
 	"github.com/fredouric/cheese-finder-grpc/dataset"
 	"github.com/fredouric/cheese-finder-grpc/db"
-	"github.com/fredouric/cheese-finder-grpc/gen/cheesev1"
+	"github.com/fredouric/cheese-finder-grpc/gen/cheese/v1"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/urfave/cli/v2"

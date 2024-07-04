@@ -21,3 +21,5 @@
 go.work
 go/bin/*
 *.sqlite3
+web/node_modules
+web/.svelte-kit

@@ -29,5 +29,14 @@
 		"typescript-eslint": "^8.0.0-alpha.20",
 		"vite": "^5.0.3"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@grpc/grpc-js": "^1.10.9",
+		"@protobuf-ts/grpc-transport": "^2.9.4",
+		"@protobuf-ts/plugin": "^2.9.4",
+		"@protobuf-ts/protoc": "^2.9.4",
+		"@protobuf-ts/runtime": "^2.9.4",
+		"@protobuf-ts/runtime-rpc": "^2.9.4",
+		"@types/google-protobuf": "^3.15.12"
+	}
 }
