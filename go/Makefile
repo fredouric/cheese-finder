@@ -23,10 +23,6 @@ build-all: $(addprefix bin/,$(bins)) bin/checksums.md
 clean: 
 	rm -rf bin/
 	
-.PHONY: grpc
-grpc: 
-	protoc --proto_path=../protos ../protos/cheese/cheese.proto --go_out=. --go-grpc_out=.
-
 .PHONY: sqlc
 sqlc: 
 	sqlc generate
