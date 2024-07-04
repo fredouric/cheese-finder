@@ -1,5 +1,6 @@
+import { env } from '$env/dynamic/private';
 import { GrpcTransport } from '@protobuf-ts/grpc-transport';
-import { CheeseAPIClient } from '../../gen/cheese/v1/cheese.client';
+import { CheeseAPIClient } from '$gen/cheese/v1/cheese.client';
 import { ChannelCredentials } from '@grpc/grpc-js';
 
 const transport = new GrpcTransport({
