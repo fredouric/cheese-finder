@@ -33,6 +33,14 @@ export interface GetOneCheeseResponse {
  * @generated from protobuf message cheese.v1.GetAllCheesesRequest
  */
 export interface GetAllCheesesRequest {
+    /**
+     * @generated from protobuf field: int64 offset = 1;
+     */
+    offset: string;
+    /**
+     * @generated from protobuf field: int64 limit = 2;
+     */
+    limit: string;
 }
 /**
  * @generated from protobuf message cheese.v1.GetAllCheesesResponse
@@ -176,18 +184,48 @@ export const GetOneCheeseResponse = new GetOneCheeseResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetAllCheesesRequest$Type extends MessageType<GetAllCheesesRequest> {
     constructor() {
-        super("cheese.v1.GetAllCheesesRequest", []);
+        super("cheese.v1.GetAllCheesesRequest", [
+            { no: 1, name: "offset", kind: "scalar", T: 3 /*ScalarType.INT64*/ },
+            { no: 2, name: "limit", kind: "scalar", T: 3 /*ScalarType.INT64*/ }
+        ]);
     }
     create(value?: PartialMessage<GetAllCheesesRequest>): GetAllCheesesRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.offset = "0";
+        message.limit = "0";
         if (value !== undefined)
             reflectionMergePartial<GetAllCheesesRequest>(this, message, value);
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetAllCheesesRequest): GetAllCheesesRequest {
-        return target ?? this.create();
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* int64 offset */ 1:
+                    message.offset = reader.int64().toString();
+                    break;
+                case /* int64 limit */ 2:
+                    message.limit = reader.int64().toString();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
     }
     internalBinaryWrite(message: GetAllCheesesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* int64 offset = 1; */
+        if (message.offset !== "0")
+            writer.tag(1, WireType.Varint).int64(message.offset);
+        /* int64 limit = 2; */
+        if (message.limit !== "0")
+            writer.tag(2, WireType.Varint).int64(message.limit);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);

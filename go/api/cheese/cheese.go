@@ -30,7 +30,10 @@ func (s *cheeseAPIServer) GetOneCheese(ctx context.Context, req *cheesev1.GetOne
 }
 
 func (s *cheeseAPIServer) GetAllCheeses(ctx context.Context, req *cheesev1.GetAllCheesesRequest) (*cheesev1.GetAllCheesesResponse, error) {
-	cheeses, err := s.queries.GetAllCheeses(ctx)
+	cheeses, err := s.queries.GetAllCheeses(ctx, db.GetAllCheesesParams{
+		Limit:  req.GetLimit(),
+		Offset: req.GetOffset(),
+	})
 	if err != nil {
 		log.Err(err).Msg("failed to get cheeses")
 		return nil, err
