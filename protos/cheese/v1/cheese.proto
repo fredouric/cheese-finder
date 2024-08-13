@@ -21,11 +21,11 @@ message GetAllCheesesRequest {
 }
 
 message GetAllCheesesResponse {
-    repeated Cheese cheeses = 1;
+    repeated Cheese data = 1;
 }
 
 message Cheese {
-    int64 id=1;
+    int64 id=1 [jstype = JS_NUMBER];
     string departement=2;
     string fromage=3;
     string pageFrancaise=4;
