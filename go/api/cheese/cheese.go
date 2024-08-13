@@ -46,6 +46,6 @@ func (s *cheeseAPIServer) GetAllCheeses(ctx context.Context, req *cheesev1.GetAl
 	}
 
 	return &cheesev1.GetAllCheesesResponse{
-		Cheeses: data,
+		Data: data,
 	}, nil
 }
