@@ -37,6 +37,7 @@
 		"@protobuf-ts/protoc": "^2.9.4",
 		"@protobuf-ts/runtime": "^2.9.4",
 		"@protobuf-ts/runtime-rpc": "^2.9.4",
-		"@types/google-protobuf": "^3.15.12"
+		"@types/google-protobuf": "^3.15.12",
+		"just-clone": "^6.2.0"
 	}
 }

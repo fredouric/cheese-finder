@@ -46,12 +46,16 @@ func (q *Queries) DeleteAllCheeses(ctx context.Context) error {
 }
 
 const getAllCheeses = `-- name: GetAllCheeses :many
-SELECT id, departement, fromage, pagefrancaise, englishpage, lait, geoshape, geopoint2d FROM cheese
-ORDER BY fromage
+SELECT id, departement, fromage, pagefrancaise, englishpage, lait, geoshape, geopoint2d FROM cheese LIMIT ? OFFSET ?
 `
 
-func (q *Queries) GetAllCheeses(ctx context.Context) ([]Cheese, error) {
-	rows, err := q.db.QueryContext(ctx, getAllCheeses)
+type GetAllCheesesParams struct {
+	Limit  int64
+	Offset int64
+}
+
+func (q *Queries) GetAllCheeses(ctx context.Context, arg GetAllCheesesParams) ([]Cheese, error) {
+	rows, err := q.db.QueryContext(ctx, getAllCheeses, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
