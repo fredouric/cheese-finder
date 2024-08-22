@@ -5,7 +5,7 @@ go 1.22.2
 require (
 	github.com/pressly/goose/v3 v3.21.1
 	github.com/rs/zerolog v1.33.0
-	github.com/urfave/cli/v2 v2.27.3
+	github.com/urfave/cli/v2 v2.27.4
 	golang.org/x/net v0.27.0
 	google.golang.org/grpc v1.65.0
 	google.golang.org/protobuf v1.34.2
