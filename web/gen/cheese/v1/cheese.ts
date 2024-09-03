@@ -33,24 +33,32 @@ export interface GetOneCheeseResponse {
  * @generated from protobuf message cheese.v1.GetAllCheesesRequest
  */
 export interface GetAllCheesesRequest {
+    /**
+     * @generated from protobuf field: int64 offset = 1;
+     */
+    offset: string;
+    /**
+     * @generated from protobuf field: int64 limit = 2;
+     */
+    limit: string;
 }
 /**
  * @generated from protobuf message cheese.v1.GetAllCheesesResponse
  */
 export interface GetAllCheesesResponse {
     /**
-     * @generated from protobuf field: repeated cheese.v1.Cheese cheeses = 1;
+     * @generated from protobuf field: repeated cheese.v1.Cheese data = 1;
      */
-    cheeses: Cheese[];
+    data: Cheese[];
 }
 /**
  * @generated from protobuf message cheese.v1.Cheese
  */
 export interface Cheese {
     /**
-     * @generated from protobuf field: int64 id = 1;
+     * @generated from protobuf field: int64 id = 1 [jstype = JS_NUMBER];
      */
-    id: string;
+    id: number;
     /**
      * @generated from protobuf field: string departement = 2;
      */
@@ -176,18 +184,48 @@ export const GetOneCheeseResponse = new GetOneCheeseResponse$Type();
 // @generated message type with reflection information, may provide speed optimized methods
 class GetAllCheesesRequest$Type extends MessageType<GetAllCheesesRequest> {
     constructor() {
-        super("cheese.v1.GetAllCheesesRequest", []);
+        super("cheese.v1.GetAllCheesesRequest", [
+            { no: 1, name: "offset", kind: "scalar", T: 3 /*ScalarType.INT64*/ },
+            { no: 2, name: "limit", kind: "scalar", T: 3 /*ScalarType.INT64*/ }
+        ]);
     }
     create(value?: PartialMessage<GetAllCheesesRequest>): GetAllCheesesRequest {
         const message = globalThis.Object.create((this.messagePrototype!));
+        message.offset = "0";
+        message.limit = "0";
         if (value !== undefined)
             reflectionMergePartial<GetAllCheesesRequest>(this, message, value);
         return message;
     }
     internalBinaryRead(reader: IBinaryReader, length: number, options: BinaryReadOptions, target?: GetAllCheesesRequest): GetAllCheesesRequest {
-        return target ?? this.create();
+        let message = target ?? this.create(), end = reader.pos + length;
+        while (reader.pos < end) {
+            let [fieldNo, wireType] = reader.tag();
+            switch (fieldNo) {
+                case /* int64 offset */ 1:
+                    message.offset = reader.int64().toString();
+                    break;
+                case /* int64 limit */ 2:
+                    message.limit = reader.int64().toString();
+                    break;
+                default:
+                    let u = options.readUnknownField;
+                    if (u === "throw")
+                        throw new globalThis.Error(`Unknown field ${fieldNo} (wire type ${wireType}) for ${this.typeName}`);
+                    let d = reader.skip(wireType);
+                    if (u !== false)
+                        (u === true ? UnknownFieldHandler.onRead : u)(this.typeName, message, fieldNo, wireType, d);
+            }
+        }
+        return message;
     }
     internalBinaryWrite(message: GetAllCheesesRequest, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
+        /* int64 offset = 1; */
+        if (message.offset !== "0")
+            writer.tag(1, WireType.Varint).int64(message.offset);
+        /* int64 limit = 2; */
+        if (message.limit !== "0")
+            writer.tag(2, WireType.Varint).int64(message.limit);
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -202,12 +240,12 @@ export const GetAllCheesesRequest = new GetAllCheesesRequest$Type();
 class GetAllCheesesResponse$Type extends MessageType<GetAllCheesesResponse> {
     constructor() {
         super("cheese.v1.GetAllCheesesResponse", [
-            { no: 1, name: "cheeses", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Cheese }
+            { no: 1, name: "data", kind: "message", repeat: 1 /*RepeatType.PACKED*/, T: () => Cheese }
         ]);
     }
     create(value?: PartialMessage<GetAllCheesesResponse>): GetAllCheesesResponse {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.cheeses = [];
+        message.data = [];
         if (value !== undefined)
             reflectionMergePartial<GetAllCheesesResponse>(this, message, value);
         return message;
@@ -217,8 +255,8 @@ class GetAllCheesesResponse$Type extends MessageType<GetAllCheesesResponse> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* repeated cheese.v1.Cheese cheeses */ 1:
-                    message.cheeses.push(Cheese.internalBinaryRead(reader, reader.uint32(), options));
+                case /* repeated cheese.v1.Cheese data */ 1:
+                    message.data.push(Cheese.internalBinaryRead(reader, reader.uint32(), options));
                     break;
                 default:
                     let u = options.readUnknownField;
@@ -232,9 +270,9 @@ class GetAllCheesesResponse$Type extends MessageType<GetAllCheesesResponse> {
         return message;
     }
     internalBinaryWrite(message: GetAllCheesesResponse, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* repeated cheese.v1.Cheese cheeses = 1; */
-        for (let i = 0; i < message.cheeses.length; i++)
-            Cheese.internalBinaryWrite(message.cheeses[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
+        /* repeated cheese.v1.Cheese data = 1; */
+        for (let i = 0; i < message.data.length; i++)
+            Cheese.internalBinaryWrite(message.data[i], writer.tag(1, WireType.LengthDelimited).fork(), options).join();
         let u = options.writeUnknownFields;
         if (u !== false)
             (u == true ? UnknownFieldHandler.onWrite : u)(this.typeName, message, writer);
@@ -249,7 +287,7 @@ export const GetAllCheesesResponse = new GetAllCheesesResponse$Type();
 class Cheese$Type extends MessageType<Cheese> {
     constructor() {
         super("cheese.v1.Cheese", [
-            { no: 1, name: "id", kind: "scalar", T: 3 /*ScalarType.INT64*/ },
+            { no: 1, name: "id", kind: "scalar", T: 3 /*ScalarType.INT64*/, L: 2 /*LongType.NUMBER*/ },
             { no: 2, name: "departement", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 3, name: "fromage", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
             { no: 4, name: "pageFrancaise", kind: "scalar", T: 9 /*ScalarType.STRING*/ },
@@ -261,7 +299,7 @@ class Cheese$Type extends MessageType<Cheese> {
     }
     create(value?: PartialMessage<Cheese>): Cheese {
         const message = globalThis.Object.create((this.messagePrototype!));
-        message.id = "0";
+        message.id = 0;
         message.departement = "";
         message.fromage = "";
         message.pageFrancaise = "";
@@ -278,8 +316,8 @@ class Cheese$Type extends MessageType<Cheese> {
         while (reader.pos < end) {
             let [fieldNo, wireType] = reader.tag();
             switch (fieldNo) {
-                case /* int64 id */ 1:
-                    message.id = reader.int64().toString();
+                case /* int64 id = 1 [jstype = JS_NUMBER];*/ 1:
+                    message.id = reader.int64().toNumber();
                     break;
                 case /* string departement */ 2:
                     message.departement = reader.string();
@@ -314,8 +352,8 @@ class Cheese$Type extends MessageType<Cheese> {
         return message;
     }
     internalBinaryWrite(message: Cheese, writer: IBinaryWriter, options: BinaryWriteOptions): IBinaryWriter {
-        /* int64 id = 1; */
-        if (message.id !== "0")
+        /* int64 id = 1 [jstype = JS_NUMBER]; */
+        if (message.id !== 0)
             writer.tag(1, WireType.Varint).int64(message.id);
         /* string departement = 2; */
         if (message.departement !== "")
