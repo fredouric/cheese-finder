@@ -4,7 +4,9 @@
 	export let cheese: Cheese;
 </script>
 
-<div class="cheese-card">
-	<h3>{cheese.fromage}</h3>
-	<p>Type: {cheese.departement}</p>
-</div>
+<a href="/{cheese.id}">
+	<div class="group mx-auto bg-slate-100 hover:bg-slate-200 rounded-xl p-4">
+		<p>{cheese.fromage}</p>
+		<p class="">{cheese.departement}</p>
+	</div>
+</a>
