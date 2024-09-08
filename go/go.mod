@@ -9,7 +9,7 @@ require (
 	golang.org/x/net v0.28.0
 	google.golang.org/grpc v1.65.0
 	google.golang.org/protobuf v1.34.2
-	modernc.org/sqlite v1.32.0
+	modernc.org/sqlite v1.33.0
 )
 
 require (
