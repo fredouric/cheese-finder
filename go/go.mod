@@ -6,7 +6,7 @@ require (
 	github.com/pressly/goose/v3 v3.22.0
 	github.com/rs/zerolog v1.33.0
 	github.com/urfave/cli/v2 v2.27.5
-	golang.org/x/net v0.29.0
+	golang.org/x/net v0.33.0
 	google.golang.org/grpc v1.65.0
 	google.golang.org/protobuf v1.34.2
 	modernc.org/sqlite v1.33.0
@@ -26,9 +26,9 @@ require (
 	github.com/sethvargo/go-retry v0.3.0 // indirect
 	github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
-	golang.org/x/sync v0.8.0 // indirect
-	golang.org/x/sys v0.25.0 // indirect
-	golang.org/x/text v0.18.0 // indirect
+	golang.org/x/sync v0.10.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
+	golang.org/x/text v0.21.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240528184218-531527333157 // indirect
 	modernc.org/gc/v3 v3.0.0-20240107210532-573471604cb6 // indirect
 	modernc.org/libc v1.55.3 // indirect
